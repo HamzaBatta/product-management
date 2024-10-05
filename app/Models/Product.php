@@ -15,7 +15,6 @@ class Product extends Model {
     protected $fillable = [
             'name',
             'expire_date',
-            'image',
             'phone_number',
             'category',
             'price',
@@ -37,6 +36,10 @@ class Product extends Model {
 
     public function comments() : HasMany{
         return $this->hasMany(Comment::class);
+    }
+
+    public function images() : HasMany{
+        return $this->hasMany(Image::class);
     }
 
 }

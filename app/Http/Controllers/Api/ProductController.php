@@ -15,8 +15,6 @@ class ProductController extends Controller
             ->except(['show' , 'index']);
     }
 
-
-
     public function index()
     {
         $products =  Product::all();
@@ -30,13 +28,29 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
-        $request->validate([
 
-        ]);
 
-        
     }
 
+
+    public function store(Request $request){
+//        dd('1');
+        $validatedData = $request->validate([
+            'name' => 'required|unique:products|max:155',
+            'expire_date' => 'required|string',
+            'category' => 'required',
+            'phone_number' =>'required',
+            'price' => 'required|min:0',
+            'quantity' => 'required|min:1',
+        ]);
+        $validatedData['user_id'] = auth()->user()->id;
+
+        Product::create($validatedData);
+
+        return response()->json([
+            'message' => 'Product has been created successfully.o'
+        ]);
+    }
 
     /**
      * Display the specified resource.
