@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use Illuminate\Routing\Controller;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class ProductController extends Controller
 {
@@ -23,13 +22,13 @@ class ProductController extends Controller
              ->get()
             ->each(function ($product) {
                 $expirationDate = $product->getExpirationDate();
-                $isExpired = (!$expirationDate == 0);
+                $isExpired = ($expirationDate == 0);
                 $product['is_expired'] = $isExpired;
+                if($expirationDate > 0)
+                    $product['days_until_expiration'] = floor($expirationDate);
                 $product->price = $product->getPrice();
             });
-        return response()->json([
-            $products
-        ]);
+        return response()->json($products);
     }
 
     public function store(CreateProductRequest $createProductRequest)
@@ -47,17 +46,17 @@ class ProductController extends Controller
     {
         // Get the days until expiration
         $expirationDate = $product->getExpirationDate();
-        $isExpired = (!$expirationDate == 0);
+        $isExpired = ($expirationDate == 0);
 
         // Get the price
         $product['price'] = $product->getPrice();
+        $product['is_expired'] = $isExpired;
+
 
         // Return the product data as JSON with the expired status
         return response()->json([
             'product' => $product,
-            'is_expired' => $isExpired,
-            'days_until_expiration' => floor($expirationDate), // Include the number of days until expiration (if valid)
-        ]);
+            ]);
     }
 
 

@@ -51,23 +51,22 @@ class Product extends Model {
 
     public function createdAt() : Attribute {
         return Attribute::make(
-            set: fn($createdAt) => (Carbon::parse($createdAt))
+            get: fn($createdAt) => (Carbon::parse($createdAt))
                 ->setTimezone('Asia/Riyadh')
                 ->format('Y-m-d H:i:s')
-
         );
     }
     public function expireDate() : Attribute {
         return Attribute::make(
-            set: fn($expireDate) => (Carbon::parse($expireDate))
+            get: fn($expireDate) => (Carbon::parse($expireDate))
                 ->setTimezone('Asia/Riyadh')
-                ->format('Y-m-d H:i:s')
+                ->format('Y-m-d')
 
         );
     }
     public function updatedAt() : Attribute {
         return Attribute::make(
-            set: fn($updatedAt) => (Carbon::parse($updatedAt))
+            get: fn($updatedAt) => (Carbon::parse($updatedAt))
                 ->setTimezone('Asia/Riyadh')
                 ->format('Y-m-d H:i:s')
         );
