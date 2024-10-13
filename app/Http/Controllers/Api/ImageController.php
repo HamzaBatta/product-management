@@ -29,10 +29,6 @@ class ImageController extends Controller
         $folderName = Str::slug($product->name);
         $imageName = Str::slug($product->name." ".time());
 
-        if (!Storage::disk('gallery')->exists($folderName)) {
-            Storage::makeDirectory($folderName);
-        }
-
         $path = $image->storeAs($folderName, $imageName, 'gallery');
 
         $product->images()->create([
@@ -42,7 +38,11 @@ class ImageController extends Controller
         return response()->json([
             'message' => __('messages.image_created')
         ]);
+//        return response()->file(Storage::disk('gallery')->path ($path));
     }
+
+
+
 
 
     public function destroy(Product $product, int $image)

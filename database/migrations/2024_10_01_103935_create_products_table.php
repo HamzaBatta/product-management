@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('price',10);
             $table->integer('views_count')->default(0);
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

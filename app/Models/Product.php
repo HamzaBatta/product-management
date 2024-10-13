@@ -12,7 +12,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Str;
 
 class Product extends Model {
 
@@ -29,6 +31,8 @@ class Product extends Model {
     ];
 
     public static array $categories = ['food', 'electronics', 'clothing'];
+
+
 
 
 

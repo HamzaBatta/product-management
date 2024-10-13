@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Image;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -40,6 +44,35 @@ class ProductController extends Controller
         return response()->json([
             'message' => __('messages.product_created', ['product' => $product->name])
         ]);
+    }
+
+    public function setLogo(Product $product , Request $request){
+        $request->validate([
+            'path' => 'required|mimes:jpeg,png,jpg|max:4096'
+        ]);
+        $image = Storage::disk('gallery')->exists('path');
+        if($image){
+            $product->logo=$image;
+            $product->save();
+        }else{
+            $image = $request->file('path');
+            $folderName = Str::slug($product->name);
+            $imageName = Str::slug($product->name." ".time());
+            $path = $image->storeAs($folderName, $imageName, 'gallery');
+
+            $product->images()->create([
+                'path' => $path
+            ]);
+
+            $product->logo = $path;
+            $product->save();
+        }
+
+        return response()->json([
+            'message'=>__('messages.image_created')
+        ]);
+
+
     }
 
     public function show(Product $product)

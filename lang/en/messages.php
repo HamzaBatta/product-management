@@ -7,5 +7,5 @@ return [
     'product_not_found' => 'This product is not found',
     'image_created'     => 'Image added successfully',
     'image_deleted'     => 'The image has been deleted successfully',
-    'image_not_found'   => 'This image is not exist'
+    'image_not_found'   => 'This image doesn\'t exist'
 ];

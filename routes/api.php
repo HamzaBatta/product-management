@@ -27,3 +27,4 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::resource('products.images' , ImageController::class)
         ->except('update','edit','show','create');
+Route::post('products/{product}/setLogo',[ProductController::class,'setLogo'])->name('products.setLogo');
